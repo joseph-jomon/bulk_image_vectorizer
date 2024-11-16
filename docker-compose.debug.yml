@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    volumes:
+      - ./app:/app  # Mounts the app directory for live code updates
+    command: [
+      "python", "-m", "debugpy", "--listen", "0.0.0.0:5678", "--wait-for-client",  # Starts debugpy in the container
+      "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80", "--reload"
+    ]
+    ports:
+      - "8000:80"     # Maps port 8000 on the host to port 80 in the container for the app
+      - "5678:5678"   # Exposes debugpy port 5678 for remote debugging

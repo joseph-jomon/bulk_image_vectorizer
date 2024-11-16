@@ -1,0 +1,14 @@
+fastapi
+httpx
+uvicorn
+pandas
+torch
+transformers
+debugpy
+pydantic-settings
+pillow
+itsdangerous  # Explicitly added for session management
+python-multipart
+datasets
+torchvision
+numpy
