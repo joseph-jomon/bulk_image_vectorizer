@@ -113,13 +113,16 @@ async def send_vectors_in_batches(embeddings, metadata, batch_size=100):
                 {
                     "company_name": meta["company_name"],
                     "id": meta["id"],
-                    "vector_embedding": embedding.tolist(),
-                    #"tracking_path": meta["tracking_path"]
+                    "image_embedding": embedding.tolist(),
+                    "tracking_path": meta["tracking_path"]
                 }
                 for embedding, meta in zip(batch_embeddings, batch_metadata)
             ]
 
-            response = await client.post(INGEST_ENDPOINT, json={"items": payload})
+            response = await client.post(
+                INGEST_ENDPOINT,
+                params={"index_name": f"{batch_metadata[i]['company_name']}_bulk_image"}, 
+                json={"items": payload})
             if response.status_code != 200:
                 print(f"Batch ingestion failed: {response.json()}")
 
@@ -128,5 +131,5 @@ async def generate_vectors_after_download():
     """Orchestrate the entire vector generation process."""
     data_loader = create_dataloader()
     embeddings, metadata = process_and_generate_embeddings(data_loader)
-    print(f"the embedding is {embeddings} the metadata is {metadata}")
+    #print(f"the embedding is {embeddings} the metadata is {metadata}")
     await send_vectors_in_batches(embeddings, metadata)

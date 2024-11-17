@@ -10,6 +10,9 @@ async def upload_csv(
     file: UploadFile = File(...),
     token: str = Depends(get_token)  # Use dependency to retrieve token
 ):
+    """
+    Endpoint to Download Process Image Data and send Embeddings to the Database Service for Storage
+    """
     if file.content_type != 'text/csv':
         raise HTTPException(status_code=400, detail="Invalid file type. Please upload a CSV file.")
     

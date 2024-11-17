@@ -3,7 +3,11 @@ from fastapi import FastAPI
 from starlette.middleware.sessions import SessionMiddleware
 from app.routers import  data_downloader_router
 
-app = FastAPI()
+app = FastAPI(
+    title="Bulk Image Vectorizer Service",
+    description="Creates Dataset, Vectors and send it to the Database Service",
+    version="1.0.0",
+)
 # Add SessionMiddleware with a secret key
 app.add_middleware(SessionMiddleware, secret_key="your_secret_key_here")
 
